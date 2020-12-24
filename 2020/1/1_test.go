@@ -27,3 +27,15 @@ func Benchmark_1(b *testing.B) {
 		one(input)
 	}
 }
+
+func Test_1PartTwo(t *testing.T) {
+	expected := 241861950
+	actual := onePartTwo(input)
+	assert.Equal(t, expected, actual)
+}
+
+func Benchmark_1Part2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		onePartTwo(input)
+	}
+}
