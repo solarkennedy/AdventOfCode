@@ -9,6 +9,10 @@ import (
 	utils "github.com/solarkennedy/AdventOfCode/utils"
 )
 
+const (
+	debug = false
+)
+
 func inputToIntSlice(input string) []int {
 	output := []int{}
 	scanner := bufio.NewScanner(strings.NewReader(input))
@@ -24,15 +28,16 @@ func inputToIntSlice(input string) []int {
 	return output
 }
 
-func one(input string) int {
-	inputSlice := inputToIntSlice(input)
+func one(inputSlice []int) int {
 	for i, n := range inputSlice {
 		// Addition is commutative, so we don't need to accidentally-quadratic this thing
 		for j, m := range inputSlice[i:] {
 			if n+m == 2020 {
-				fmt.Println("Found two numbers that sum to 2020:")
-				fmt.Printf("%d (line %d)\n", n, i+1)
-				fmt.Printf("%d (line %d)\n", m, j+1)
+				if debug {
+					fmt.Println("Found two numbers that sum to 2020:")
+					fmt.Printf("%d (line %d)\n", n, i+1)
+					fmt.Printf("%d (line %d)\n", m, j+1)
+				}
 				return m * n
 			}
 		}
@@ -40,8 +45,7 @@ func one(input string) int {
 	panic("Couldn't find the answer")
 }
 
-func onePartTwo(input string) int {
-	inputSlice := inputToIntSlice(input)
+func onePartTwo(inputSlice []int) int {
 	for i, n := range inputSlice {
 		for j, m := range inputSlice[i:] {
 			if n+m >= 2020 {
@@ -49,10 +53,12 @@ func onePartTwo(input string) int {
 			}
 			for k, o := range inputSlice[j:] {
 				if n+m+o == 2020 {
-					fmt.Println("Found three numbers that sum to 2020:")
-					fmt.Printf("%d (line %d)\n", n, i+1)
-					fmt.Printf("%d (line %d)\n", m, j+1)
-					fmt.Printf("%d (line %d)\n", o, k+1)
+					if debug {
+						fmt.Println("Found three numbers that sum to 2020:")
+						fmt.Printf("%d (line %d)\n", n, i+1)
+						fmt.Printf("%d (line %d)\n", m, j+1)
+						fmt.Printf("%d (line %d)\n", o, k+1)
+					}
 					return m * n * o
 				}
 			}
@@ -63,8 +69,9 @@ func onePartTwo(input string) int {
 
 func main() {
 	input := utils.ReadInput()
-	result := one(input)
-	fmt.Println(result)
-	result2 := onePartTwo(input)
-	fmt.Println(result2)
+	inputSlice := inputToIntSlice(input)
+	result := one(inputSlice)
+	fmt.Printf("Answer to part one: %d\n", result)
+	result2 := onePartTwo(inputSlice)
+	fmt.Printf("Answer to part two: %d\n", result2)
 }
