@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/solarkennedy/AdventOfCode/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,6 +17,27 @@ func TestPartOne(t *testing.T) {
 	input := `BFFFBBFRRR
 FFFBBBFRRR
 BBFFBBFRLL`
-	actual := partOne(input)
+	ids := seatsToIDs(input)
+	actual := partOne(ids)
 	assert.Equal(t, 820, actual)
+}
+
+func BenchmarkGetMax(b *testing.B) {
+	input := utils.ReadInput()
+	ids := seatsToIDs(input)
+	b.Run("max", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			getMax(ids)
+		}
+	})
+}
+
+func BenchmarkGetPartTwo(b *testing.B) {
+	input := utils.ReadInput()
+	ids := seatsToIDs(input)
+	b.Run("part2", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			partTwo(ids)
+		}
+	})
 }

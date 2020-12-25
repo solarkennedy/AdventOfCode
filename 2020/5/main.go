@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -49,19 +50,27 @@ func seatsToIDs(input string) []int {
 	return ids
 }
 
-func partOne(input string) int {
-	ids := seatsToIDs(input)
+func partOne(ids []int) int {
 	return getMax(ids)
 }
 
-func partTwo(input string) int {
+func partTwo(ids []int) int {
+	sort.Ints(ids)
+	for i, seatID := range ids {
+		// If the seat after this one isn't just an +1,
+		// then that next ID is our seat!
+		if ids[i+1] != seatID+1 {
+			return seatID + 1
+		}
+	}
 	return 0
 }
 
 func main() {
 	input := utils.ReadInput()
-	result := partOne(input)
+	ids := seatsToIDs(input)
+	result := partOne(ids)
 	fmt.Printf("Answer to part one: %d\n", result)
-	result2 := partTwo(input)
+	result2 := partTwo(ids)
 	fmt.Printf("Answer to part two: %d\n", result2)
 }
