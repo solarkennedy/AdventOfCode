@@ -75,6 +75,17 @@ func swapLine(lineNo int, instructions []instruction) ([]instruction, error) {
 	return newInstructions, nil
 }
 
+func swapAndCompute(ch chan int, lineNo int, instructions []instruction) {
+	newInstructions, err := swapLine(lineNo, instructions)
+	if err != nil {
+		return
+	}
+	acc, err := partOne(newInstructions)
+	if err == nil {
+		ch <- acc
+	}
+}
+
 func partTwo(instructions []instruction) (int, error) {
 	for lineNo := range instructions {
 		newInstructions, err := swapLine(lineNo, instructions)
@@ -85,9 +96,17 @@ func partTwo(instructions []instruction) (int, error) {
 		if err == nil {
 			return acc, nil
 		}
-
 	}
 	return 0, fmt.Errorf("No amount of swapping resulted in a terminal program")
+}
+
+func partTwoParallel(instructions []instruction) (int, error) {
+	ch := make(chan int)
+	for lineNo := range instructions {
+		go swapAndCompute(ch, lineNo, instructions)
+	}
+	ans := <-ch
+	return ans, nil
 }
 
 func main() {
@@ -95,14 +114,22 @@ func main() {
 	instructions := parseInstructions(input)
 	var result int
 	var err error
+
 	result, err = partOne(instructions)
 	if err == nil {
 		panic("Part one program terminated without loop? Unexpected")
 	}
 	fmt.Printf("Answer to part one: %d\n", result)
+
 	result, err = partTwo(instructions)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Answer to part one: %d\n", result)
+	fmt.Printf("Answer to part two: %d\n", result)
+
+	result, err = partTwoParallel(instructions)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Answer to part two (parallel): %d\n", result)
 }

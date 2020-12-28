@@ -14,4 +14,4 @@ test:
 	go test -v .
 
 benchmark:
-	go test -bench=.
+	go test  -benchmem -bench=.

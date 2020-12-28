@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/solarkennedy/AdventOfCode/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -34,4 +35,19 @@ acc +6`
 	instructions := parseInstructions(input)
 	actual, _ := partTwo(instructions)
 	assert.Equal(t, 8, actual)
+}
+
+func BenchmarkGetPartTwo(b *testing.B) {
+	input := utils.ReadInput()
+	instructions := parseInstructions(input)
+	b.Run("part2-serial__	", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			_, _ = partTwo(instructions)
+		}
+	})
+	b.Run("part2-parallel", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			_, _ = partTwoParallel(instructions)
+		}
+	})
 }
