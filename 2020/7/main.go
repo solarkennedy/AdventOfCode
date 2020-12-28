@@ -3,14 +3,20 @@ package main
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/solarkennedy/AdventOfCode/utils"
 )
 
-func parseContents(contents string) []string {
-	colorsThatCanBeContained := []string{}
-	r := regexp.MustCompile("(?P<ammount>[0-9]+) (?P<contents>.*) bag")
+type rule struct {
+	color  string
+	amount int
+}
+
+func parseContents(contents string) []rule {
+	colorsThatCanBeContained := []rule{}
+	r := regexp.MustCompile("(?P<amount>[0-9]+) (?P<contents>.*) bag")
 	for _, content := range strings.Split(contents, ",") {
 		if content == "no other bags" {
 			continue
@@ -19,12 +25,20 @@ func parseContents(contents string) []string {
 		if len(match) < 2 {
 			panic(fmt.Errorf("Something went wrong matching this regex '%s' to the input '%s'\n", r.String(), content))
 		}
-		colorsThatCanBeContained = append(colorsThatCanBeContained, match[2])
+		amount, err := strconv.Atoi(match[1])
+		if err != nil {
+			panic(err)
+		}
+		r := rule{
+			amount: amount,
+			color:  match[2],
+		}
+		colorsThatCanBeContained = append(colorsThatCanBeContained, r)
 	}
 	return colorsThatCanBeContained
 }
 
-func parseRule(rule string) (string, []string) {
+func parseRule(rule string) (string, []rule) {
 	r := regexp.MustCompile("(?P<containingColor>[a-z ]*) bags contain (?P<contants>.*).")
 	match := r.FindStringSubmatch(rule)
 	if len(match) < 2 {
@@ -38,9 +52,9 @@ func parseRule(rule string) (string, []string) {
 func parseRules(input string) map[string][]string {
 	rules := map[string][]string{}
 	for _, rule := range strings.Split(input, "\n") {
-		containerColor, colorsThatCanBeContained := parseRule(rule)
-		for _, colorThatCanBeContained := range colorsThatCanBeContained {
-			rules[colorThatCanBeContained] = append(rules[colorThatCanBeContained], containerColor)
+		containerColor, colorRules := parseRule(rule)
+		for _, colorThatCanBeContained := range colorRules {
+			rules[colorThatCanBeContained.color] = append(rules[colorThatCanBeContained.color], containerColor)
 		}
 	}
 	return rules
