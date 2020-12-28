@@ -60,6 +60,15 @@ func parseRules(input string) map[string][]string {
 	return rules
 }
 
+func parseRulesWithAmount(input string) map[string][]rule {
+	rules := map[string][]rule{}
+	for _, rule := range strings.Split(input, "\n") {
+		containerColor, colorRules := parseRule(rule)
+		rules[containerColor] = colorRules
+	}
+	return rules
+}
+
 func ColorsThatCanContainA(color string, rules map[string][]string) []string {
 	colorsThatCanContain, ok := rules[color]
 	if !ok {
@@ -78,8 +87,19 @@ func partOne(input string) int {
 	return len(c)
 }
 
+func getAmountNeededToContain(color string, allRules map[string][]rule) int {
+	amount := 0
+	for _, rules := range allRules[color] {
+		amount += rules.amount
+		amount += rules.amount * getAmountNeededToContain(rules.color, allRules)
+	}
+	return amount
+}
+
 func partTwo(input string) int {
-	return 0
+	rules := parseRulesWithAmount(input)
+	return getAmountNeededToContain("shiny gold", rules)
+
 }
 
 func main() {
