@@ -34,19 +34,18 @@ func parseInstructions(input string) []instruction {
 	return instructions
 }
 
-func partOne(instructions []instruction) int {
+func partOne(instructions []instruction) (int, error) {
 	instructionCounter := map[int]int{}
 	acc := 0
 	pc := 0
-	for {
+	for pc != len(instructions) {
 		if instructionCounter[pc] == 1 {
-			fmt.Printf("We already ran line number %d. Breaking!\n", pc)
-			break
+			return acc, fmt.Errorf("We already ran line number %d. Breaking!\n", pc)
 		}
 		instructionCounter[pc] += 1
 		pc, acc = emulateInstruction(instructions[pc], acc, pc)
 	}
-	return acc
+	return acc, nil
 }
 
 func emulateInstruction(in instruction, acc int, pc int) (int, int) {
@@ -63,9 +62,47 @@ func emulateInstruction(in instruction, acc int, pc int) (int, int) {
 	return pc, acc
 }
 
+func swapLine(lineNo int, instructions []instruction) ([]instruction, error) {
+	newInstructions := make([]instruction, len(instructions))
+	copy(newInstructions, instructions)
+	if instructions[lineNo].operation == "jmp" {
+		newInstructions[lineNo].operation = "nop"
+	} else if instructions[lineNo].operation == "nop" {
+		newInstructions[lineNo].operation = "jmp"
+	} else {
+		return nil, fmt.Errorf("Not swapping instruction %+v on line %d", instructions[lineNo], lineNo)
+	}
+	return newInstructions, nil
+}
+
+func partTwo(instructions []instruction) (int, error) {
+	for lineNo := range instructions {
+		newInstructions, err := swapLine(lineNo, instructions)
+		if err != nil {
+			continue
+		}
+		acc, err := partOne(newInstructions)
+		if err == nil {
+			return acc, nil
+		}
+
+	}
+	return 0, fmt.Errorf("No amount of swapping resulted in a terminal program")
+}
+
 func main() {
 	input := utils.ReadInput()
 	instructions := parseInstructions(input)
-	result := partOne(instructions)
+	var result int
+	var err error
+	result, err = partOne(instructions)
+	if err == nil {
+		panic("Part one program terminated without loop? Unexpected")
+	}
+	fmt.Printf("Answer to part one: %d\n", result)
+	result, err = partTwo(instructions)
+	if err != nil {
+		panic(err)
+	}
 	fmt.Printf("Answer to part one: %d\n", result)
 }
