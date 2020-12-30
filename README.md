@@ -1,5 +1,7 @@
 # Advent of Code
 
+My solutions to the [Advent of Code](https://adventofcode.com/) puzzles.
+
 WIP
 
 - [ ] 2020
@@ -13,7 +15,7 @@ WIP
 
 (Not all links work)
 
-## December 2020
+### December 2020
 
 <table><thead>
 <tr>
@@ -73,7 +75,7 @@ WIP
 </tr>
 </tbody></table>
 
-## December 2019
+### December 2019
 
 <table><thead>
 <tr>
@@ -133,7 +135,7 @@ WIP
 </tr>
 </tbody></table>
 
-## December 2018
+### December 2018
 
 <table><thead>
 <tr>
@@ -202,7 +204,7 @@ WIP
 </tr>
 </tbody></table>
 
-## December 2017
+### December 2017
 
 <table><thead>
 <tr>
@@ -270,8 +272,9 @@ WIP
 <td align="center"></td>
 </tr>
 </tbody></table>
-<hr />
-<h2 id="wiki_december_2016">December 2016</h2>
+
+### December 2016
+
 <table><thead>
 <tr>
 <th align="center">Su</th>
@@ -330,7 +333,7 @@ WIP
 </tr>
 </tbody></table>
 
-## December 2015
+### December 2015
 
 <table><thead>
 <tr>
