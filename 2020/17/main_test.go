@@ -16,6 +16,16 @@ func Test_partOne(t *testing.T) {
 	assert.Equal(t, 112, actual)
 }
 
+func Test_partTwo(t *testing.T) {
+	input := `.#.
+..#
+###`
+	initialGrid := parseGrid(input)
+	initialGrid4 := place3to4(initialGrid)
+	actual := partTwo(initialGrid4)
+	assert.Equal(t, 848, actual)
+}
+
 func Test_parseAndRender(t *testing.T) {
 	input := `.#.
 ..#
