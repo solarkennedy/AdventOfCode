@@ -68,5 +68,5 @@ func main() {
 	fmt.Printf("Answer to part one: %d\n", result)
 
 	result = partTwo(ints, result)
-	fmt.Printf("Answer to part two: %d\n", result)
+	fmt.Printf("Answer to part one: %d\n", result)
 }
