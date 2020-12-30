@@ -18,7 +18,8 @@ nearby tickets:
 7,3,47
 40,4,50
 55,2,20
-38,6,12`
+38,6,12
+`
 
 	actual := partOne(input)
 	assert.Equal(t, 71, actual)
