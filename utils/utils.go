@@ -2,6 +2,8 @@ package utils
 
 import (
 	"io/ioutil"
+	"strconv"
+	"strings"
 )
 
 func ReadInput() string {
@@ -10,6 +12,19 @@ func ReadInput() string {
 		panic(err)
 	}
 	return string(data)
+}
+
+func ConvertIntoInts(input string) []int {
+	ints := []int{}
+	input = strings.TrimSpace(input)
+	for _, line := range strings.Split(input, "\n") {
+		i, err := strconv.Atoi(line)
+		if err != nil {
+			panic(err)
+		}
+		ints = append(ints, i)
+	}
+	return ints
 }
 
 func RemoveDuplicatesStrings(s []string) []string {
