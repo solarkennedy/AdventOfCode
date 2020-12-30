@@ -108,7 +108,7 @@ func isActive4(cube vector4, grid []vector4) bool {
 func getMaxDistance(grid []vector3) int {
 	max := 0
 	for _, c := range grid {
-		max = maxInt(max, absInt(c.x), absInt(c.y), absInt(c.z))
+		max = utils.MaxInt(max, absInt(c.x), absInt(c.y), absInt(c.z))
 	}
 	return max
 }
@@ -116,7 +116,7 @@ func getMaxDistance(grid []vector3) int {
 func getMaxDistance4(grid []vector4) int {
 	max := 0
 	for _, c := range grid {
-		max = maxInt(max, absInt(c.x), absInt(c.y), absInt(c.z), absInt(c.w))
+		max = utils.MaxInt(max, absInt(c.x), absInt(c.y), absInt(c.z), absInt(c.w))
 	}
 	return max
 }
