@@ -28,6 +28,7 @@ nearby tickets:
 func Test_parseRule(t *testing.T) {
 	actual := parseRule(`class: 1-3 or 5-7`)
 	expected := rule{
+		name: "class",
 		minA: 1,
 		maxA: 3,
 		minB: 5,
@@ -39,7 +40,7 @@ func Test_parseRule(t *testing.T) {
 func Test_parseMyTicket(t *testing.T) {
 	input := `your ticket:
 7,1,14`
-	actual := parseTicket(input)
+	actual := parseMyTicket(input)
 	expected := ticket{
 		fields: []int{7, 1, 14},
 	}
