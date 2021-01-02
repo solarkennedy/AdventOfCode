@@ -20,11 +20,15 @@ func Test_findLastTimeSpoken(t *testing.T) {
 }
 
 func Test_turn(t *testing.T) {
-	assert.Equal(t, 0, turn([]int{0, 3, 6}))
-	assert.Equal(t, 3, turn([]int{0, 3, 6, 0}))
-	assert.Equal(t, 3, turn([]int{0, 3, 6, 0, 3}))
-	assert.Equal(t, 1, turn([]int{0, 3, 6, 0, 3, 3}))
-	assert.Equal(t, 0, turn([]int{0, 3, 6, 0, 3, 3, 1}))
-	assert.Equal(t, 4, turn([]int{0, 3, 6, 0, 3, 3, 1, 0}))
-	assert.Equal(t, 0, turn([]int{0, 3, 6, 0, 3, 3, 1, 0, 4}))
+	assert.Equal(t, 0, turn([]int{0, 3, 6, -1}, 4))
+	assert.Equal(t, 3, turn([]int{0, 3, 6, 0, -1}, 5))
+	assert.Equal(t, 3, turn([]int{0, 3, 6, 0, 3, -1}, 6))
+	assert.Equal(t, 1, turn([]int{0, 3, 6, 0, 3, 3, -1}, 7))
+	assert.Equal(t, 0, turn([]int{0, 3, 6, 0, 3, 3, 1, -1}, 8))
+	assert.Equal(t, 4, turn([]int{0, 3, 6, 0, 3, 3, 1, 0, -1}, 9))
+	assert.Equal(t, 0, turn([]int{0, 3, 6, 0, 3, 3, 1, 0, 4, -1}, 10))
+}
+
+func Test_turnExample(t *testing.T) {
+	assert.Equal(t, 436, partOne("0,3,6"))
 }
