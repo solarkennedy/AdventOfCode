@@ -32,10 +32,10 @@ func parseInput(input string) ([]rule, ticket, []ticket) {
 func parseRule(input string) rule {
 	reg := regexp.MustCompile(`(.*): (\d+)-(\d+) or (\d+)-(\d+)`)
 	match := reg.FindStringSubmatch(input)
-	minA, _ := strconv.Atoi(match[2])
-	maxA, _ := strconv.Atoi(match[3])
-	minB, _ := strconv.Atoi(match[4])
-	maxB, _ := strconv.Atoi(match[5])
+	minA := utils.Atoi(match[2])
+	maxA := utils.Atoi(match[3])
+	minB := utils.Atoi(match[4])
+	maxB := utils.Atoi(match[5])
 	return rule{
 		name: match[1],
 		minA: minA,

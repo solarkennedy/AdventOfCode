@@ -6,6 +6,14 @@ import (
 	"strings"
 )
 
+func Atoi(a string) int {
+	i, err := strconv.Atoi(a)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
 func ReadInput() string {
 	data, err := ioutil.ReadFile("input")
 	if err != nil {

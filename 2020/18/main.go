@@ -54,14 +54,6 @@ func tokenize(line string) []string {
 	return tokens
 }
 
-func Atoi(a string) int {
-	i, err := strconv.Atoi(a)
-	if err != nil {
-		panic(err)
-	}
-	return i
-}
-
 func findOpenParen(tokens []string) int {
 	for i, token := range tokens {
 		if token == "(" {
@@ -96,11 +88,11 @@ func evaluate(tokens []string) int {
 	if len(tokens) == 0 {
 		return 0
 	} else if len(tokens) == 1 {
-		return Atoi(tokens[0])
+		return utils.Atoi(tokens[0])
 	} else if len(tokens) == 2 {
 		panic(fmt.Errorf("  Somehow we got down to 2 tokens: %v", tokens))
 	} else if len(tokens) == 3 {
-		answer := performOperation(Atoi(tokens[0]), tokens[1], Atoi(tokens[2]))
+		answer := performOperation(utils.Atoi(tokens[0]), tokens[1], utils.Atoi(tokens[2]))
 		fmt.Printf("  Got %d!\n", answer)
 		return answer
 	}
@@ -145,11 +137,11 @@ func evaluate2(tokens []string) int {
 	if len(tokens) == 0 {
 		return 0
 	} else if len(tokens) == 1 {
-		return Atoi(tokens[0])
+		return utils.Atoi(tokens[0])
 	} else if len(tokens) == 2 {
 		panic(fmt.Errorf("  Somehow we got down to 2 tokens: %v", tokens))
 	} else if len(tokens) == 3 {
-		answer := performOperation(Atoi(tokens[0]), tokens[1], Atoi(tokens[2]))
+		answer := performOperation(utils.Atoi(tokens[0]), tokens[1], utils.Atoi(tokens[2]))
 		fmt.Printf("  Got %d!\n", answer)
 		return answer
 	}

@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"strconv"
 	"strings"
 
 	utils "github.com/solarkennedy/AdventOfCode/utils"
@@ -18,10 +17,7 @@ func inputToIntSlice(input string) []int {
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	for scanner.Scan() {
 		line := scanner.Text()
-		i, err := strconv.Atoi(line)
-		if err != nil {
-			panic(err)
-		}
+		i := utils.Atoi(line)
 		output = append(output, i)
 
 	}
