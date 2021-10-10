@@ -14,6 +14,8 @@ for year in $(seq 2015 2020); do
     cd $year/$day
     ln -sf ../../Makefile.template Makefile 
     [[ -f input ]] || fetchInput $year $day
+    [[ -f main.go ]] || cp ../../.skel/main.go .
+    [[ -f main_test.go ]] || cp ../../.skel/main_test.go .
     cd ../../
   done
 done
