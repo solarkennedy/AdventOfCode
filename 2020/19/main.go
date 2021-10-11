@@ -161,13 +161,22 @@ func partOne(input string) int {
 
 func partTwo(input string) int {
 	rules, messages := parseMessagesAndRules(input)
+	modifyRulesForPart2(rules)
+	return howManyMessagesMatchRule0(rules, messages)
+}
+
+func modifyRulesForPart2(rules []rule) {
 	rules[8] = rule{
+		number:   8,
 		ruleSet1: []int{42},
 		ruleSet2: []int{42, 8},
+		rawRule:  "8: 42 | 42 8",
 	}
 	rules[11] = rule{
+		number:   8,
 		ruleSet1: []int{42, 31},
 		ruleSet2: []int{42, 11, 43},
+		rawRule:  "11: 42 31 | 42 11 31",
 	}
 	return howManyMessagesMatchRule0(rules, messages)
 }
