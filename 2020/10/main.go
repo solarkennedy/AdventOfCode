@@ -33,6 +33,8 @@ func findSuitableAdapters(adapters []int, voltage int) []int {
 		if IsCompatibleWithInputVoltage(a, voltage) {
 			ret = append(ret, i)
 			// Hack for speed, always the first one we find???
+			// It seems that my solution is super over-engineered, because all
+			// we have to do is sort???
 			return ret
 		}
 	}
@@ -64,13 +66,9 @@ func findWorkingChains(c AdapterChain) []AdapterChain {
 			adapters: newAdapters,
 			unused:   newUnused,
 		}
-		// fmt.Printf("   New chain: %+v\n", newChain)
 		newChains := findWorkingChains(newChain)
 		workingChains = append(workingChains, newChains...)
 	}
-	// if len(workingChains) == 0 {
-	// 	fmt.Printf("%sNo valid chains found after %+v\n", strings.Repeat(" ", len(c.adapters)), c)
-	// }
 	return workingChains
 }
 
@@ -83,10 +81,6 @@ func removeAdapter(s []int, index int) []int {
 func findWorkingChain(adapters []int) AdapterChain {
 	fmt.Printf("Building chains using %d different adapters...\n%+v\n", len(adapters), adapters)
 	chains := findWorkingChains(AdapterChain{unused: adapters})
-	if len(chains) != 1 {
-		// Shouldn't happen
-		return AdapterChain{}
-	}
 	fmt.Printf("FOUND IT: %+v\n", chains[0])
 	return chains[0]
 }
@@ -120,10 +114,6 @@ func partOne(input string) int {
 	ones := countJoltDifferences(chain.adapters, 1)
 	threes := countJoltDifferences(chain.adapters, 3)
 	return ones * threes
-}
-
-func partTwo(input string) int {
-	return 42
 }
 
 func main() {

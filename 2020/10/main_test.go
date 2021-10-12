@@ -6,8 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_partOne(t *testing.T) {
-	input := `
+const basicTestInput = `
 16
 10
 15
@@ -19,7 +18,43 @@ func Test_partOne(t *testing.T) {
 6
 12
 4`
-	assert.Equal(t, 35, partOne(input))
+
+const secondTestInput = `
+28
+33
+18
+42
+31
+14
+46
+20
+48
+47
+24
+23
+49
+45
+19
+38
+39
+11
+1
+32
+25
+35
+8
+17
+7
+9
+4
+2
+34
+10
+3`
+
+func Test_partOne(t *testing.T) {
+	assert.Equal(t, 35, partOne(basicTestInput))
+	assert.Equal(t, 220, partOne(secondTestInput))
 }
 
 func Test_removeAdapter(t *testing.T) {
@@ -57,8 +92,4 @@ func Test_countJoltDifferences(t *testing.T) {
 	assert.Equal(t, 7, ones)
 	threes := countJoltDifferences(a, 3)
 	assert.Equal(t, 5, threes)
-}
-
-func Test_partTwo(t *testing.T) {
-	assert.Equal(t, 43, partTwo("1,2,3"))
 }
