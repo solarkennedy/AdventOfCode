@@ -8,38 +8,29 @@ import (
 	"github.com/solarkennedy/AdventOfCode/utils"
 )
 
-type Adapter struct {
-	//	index  int
-	rating int
-}
-
 type AdapterChain struct {
-	adapters []Adapter
-	unused   []Adapter
+	adapters []int
+	unused   []int
 }
 
-func parseAdapters(input string) []Adapter {
+func parseAdapters(input string) []int {
 	ints := []int{}
 	for _, s := range strings.Split(strings.TrimSpace(input), "\n") {
 		ints = append(ints, utils.Atoi(s))
 	}
-	adapters := []Adapter{}
 	sort.Ints(ints)
-	for _, i := range ints {
-		adapters = append(adapters, Adapter{rating: i})
-	}
-	return adapters
+	return ints
 }
 
-func (a Adapter) IsCompatibleWithInputVoltage(voltage int) bool {
+func IsCompatibleWithInputVoltage(input int, voltage int) bool {
 	// adapters can only connect to a source 1-3 jolts lower than its rating,
-	return a.rating-voltage >= 1 && a.rating-voltage <= 3
+	return input-voltage >= 1 && input-voltage <= 3
 }
 
-func findSuitableAdapters(adapters []Adapter, voltage int) []int {
+func findSuitableAdapters(adapters []int, voltage int) []int {
 	ret := []int{}
 	for i, a := range adapters {
-		if a.IsCompatibleWithInputVoltage(voltage) {
+		if IsCompatibleWithInputVoltage(a, voltage) {
 			ret = append(ret, i)
 			// Hack for speed, always the first one we find???
 			return ret
@@ -48,12 +39,12 @@ func findSuitableAdapters(adapters []Adapter, voltage int) []int {
 	return ret
 }
 
-func getLastVoltage(adapters []Adapter) int {
+func getLastVoltage(adapters []int) int {
 	if len(adapters) == 0 {
 		// The charging outlet has an effective rating of 0 jolts
 		return 0
 	}
-	return adapters[len(adapters)-1].rating
+	return adapters[len(adapters)-1]
 }
 
 func findWorkingChains(c AdapterChain) []AdapterChain {
@@ -83,13 +74,13 @@ func findWorkingChains(c AdapterChain) []AdapterChain {
 	return workingChains
 }
 
-func removeAdapter(s []Adapter, index int) []Adapter {
-	ret := make([]Adapter, 0)
+func removeAdapter(s []int, index int) []int {
+	ret := make([]int, 0)
 	ret = append(ret, s[:index]...)
 	return append(ret, s[index+1:]...)
 }
 
-func findWorkingChain(adapters []Adapter) AdapterChain {
+func findWorkingChain(adapters []int) AdapterChain {
 	fmt.Printf("Building chains using %d different adapters...\n%+v\n", len(adapters), adapters)
 	chains := findWorkingChains(AdapterChain{unused: adapters})
 	if len(chains) != 1 {
@@ -100,13 +91,13 @@ func findWorkingChain(adapters []Adapter) AdapterChain {
 	return chains[0]
 }
 
-func countJoltDifferences(adapters []Adapter, diff int) int {
+func countJoltDifferences(adapters []int, diff int) int {
 	total := 0
 	for i := range adapters {
 		if i == len(adapters)-1 {
 			continue
 		}
-		differential := adapters[i+1].rating - adapters[i].rating
+		differential := adapters[i+1] - adapters[i]
 		if differential == diff {
 			total++
 		}
@@ -116,7 +107,7 @@ func countJoltDifferences(adapters []Adapter, diff int) int {
 		total++
 	}
 	// Wall has 0
-	wallDiff := adapters[0].rating - 0
+	wallDiff := adapters[0] - 0
 	if wallDiff == diff {
 		total++
 	}

@@ -22,27 +22,6 @@ func Test_partOne(t *testing.T) {
 	assert.Equal(t, 35, partOne(input))
 }
 
-func Test_isCompatibleWithInputVoltage(t *testing.T) {
-	a := Adapter{rating: 1}
-	assert.True(t, a.IsCompatibleWithInputVoltage(0))
-	a = Adapter{rating: 4}
-	assert.False(t, a.IsCompatibleWithInputVoltage(0))
-
-	a = Adapter{rating: 4}
-	assert.False(t, a.IsCompatibleWithInputVoltage(4))
-	a = Adapter{rating: 5}
-	assert.True(t, a.IsCompatibleWithInputVoltage(4))
-	a = Adapter{rating: 6}
-	assert.True(t, a.IsCompatibleWithInputVoltage(4))
-	a = Adapter{rating: 7}
-	assert.True(t, a.IsCompatibleWithInputVoltage(4))
-	a = Adapter{rating: 8}
-	assert.False(t, a.IsCompatibleWithInputVoltage(4))
-
-	a = Adapter{rating: 6}
-	assert.True(t, a.IsCompatibleWithInputVoltage(5))
-}
-
 func Test_removeAdapter(t *testing.T) {
 	a := parseAdapters("1\n2\n3")
 	assert.Equal(t, 3, len(a))
@@ -66,9 +45,9 @@ func Test_removeAdapterObject(t *testing.T) {
 	ch := AdapterChain{unused: a}
 	b := removeAdapter(ch.unused, 0)
 	assert.Equal(t, 3, len(ch.unused))
-	assert.Equal(t, 1, ch.unused[0].rating)
+	assert.Equal(t, 1, ch.unused[0])
 	assert.Equal(t, 2, len(b))
-	assert.Equal(t, 2, b[0].rating)
+	assert.Equal(t, 2, b[0])
 
 }
 
