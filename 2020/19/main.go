@@ -105,7 +105,7 @@ func messageMatchesMultiRule(message string, rules []rule, ruleNumbers []int) in
 	for _, ri := range ruleNumbers {
 		remaining := message[counter:]
 		if remaining == "" {
-			panic("Wtf")
+			return 0
 		}
 		matched := messageMatchesRule(remaining, rules, ri)
 		if matched == 0 {
@@ -156,28 +156,6 @@ func howManyMessagesMatchRule0(rules []rule, messages []string) int {
 
 func partOne(input string) int {
 	rules, messages := parseMessagesAndRules(input)
-	return howManyMessagesMatchRule0(rules, messages)
-}
-
-func partTwo(input string) int {
-	rules, messages := parseMessagesAndRules(input)
-	modifyRulesForPart2(rules)
-	return howManyMessagesMatchRule0(rules, messages)
-}
-
-func modifyRulesForPart2(rules []rule) {
-	rules[8] = rule{
-		number:   8,
-		ruleSet1: []int{42},
-		ruleSet2: []int{42, 8},
-		rawRule:  "8: 42 | 42 8",
-	}
-	rules[11] = rule{
-		number:   8,
-		ruleSet1: []int{42, 31},
-		ruleSet2: []int{42, 11, 43},
-		rawRule:  "11: 42 31 | 42 11 31",
-	}
 	return howManyMessagesMatchRule0(rules, messages)
 }
 
