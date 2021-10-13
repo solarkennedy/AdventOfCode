@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strings"
 
 	"github.com/solarkennedy/AdventOfCode/utils"
@@ -86,7 +87,70 @@ func partOne(input string) int {
 }
 
 func partTwo(input string) int {
-	return 42
+	ins := parseInstructions(input)
+	addrs := parseInstructionAddressDecoders(ins)
+	return sumOfAddresses(addrs)
+}
+
+func parseInstructionAddressDecoders(ins []instruction) map[string]int {
+	addrs := map[string]int{}
+	for _, ins := range ins {
+		maskedString := parseSingleInstructionAddressDecode(ins)
+		comboMap := replaceXsWithAllCombos(maskedString, ins.preMaskValue)
+		for k, v := range comboMap {
+			addrs[k] = v
+		}
+	}
+	return addrs
+}
+
+func parseSingleInstructionAddressDecode(ins instruction) string {
+	applied := ""
+	vString := fmt.Sprintf("%036b", ins.location)
+	// First apply the mask
+	for i := 0; i < 36; i++ {
+		m := ins.mask[i]
+		if m == '1' {
+			applied = applied + string(m)
+		} else if m == '0' {
+			applied = applied + string(vString[i])
+		} else if m == 'X' {
+			applied = applied + "X"
+		} else {
+			panic(m)
+		}
+	}
+	fmt.Printf("Took %+v and turned it into `%s`\n", ins, applied)
+	return applied
+}
+
+func replaceXsWithAllCombos(input string, value int) map[string]int {
+	// Now we still have X's in there potentially
+	ret := map[string]int{}
+	Xs := strings.Count(input, "X")
+	for i := 0; i < powInt(2, Xs); i++ {
+		// Come up with every combo and set the mask
+		comboString := fmt.Sprintf("%0*b", Xs, i)
+		comboMaskedValue := input
+		for _, b := range comboString {
+			comboMaskedValue = strings.Replace(comboMaskedValue, "X", string(b), 1)
+		}
+		ret[comboMaskedValue] = value
+	}
+	fmt.Printf("Took `%s` and exploded it to all %d possibilities\n", input, len(ret))
+	return ret
+}
+
+func powInt(x, y int) int {
+	return int(math.Pow(float64(x), float64(y)))
+}
+
+func sumOfAddresses(addrs map[string]int) int {
+	total := 0
+	for _, v := range addrs {
+		total += v
+	}
+	return total
 }
 
 func main() {

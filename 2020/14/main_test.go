@@ -31,3 +31,10 @@ func Test_computePostMaskValue(t *testing.T) {
 func Test_partTwo(t *testing.T) {
 	assert.Equal(t, 208, partTwo(part2Input))
 }
+
+func Test_parseSingleInstructionAddressDecode(t *testing.T) {
+	ins := parseInstructions(`mask = 000000000000000000000000000000X1001X
+	mem[42] = 100`)
+	actual := parseSingleInstructionAddressDecode(ins[0])
+	assert.Equal(t, "000000000000000000000000000000X1101X", actual)
+}
